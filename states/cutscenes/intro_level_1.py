@@ -2,6 +2,8 @@ from ..gamestate import GameState
 import pygame as pg
 from settings import *
 import tools.textrectexception as tre
+from sprites import *
+from os import path
 
 class IntroLevel1(GameState):
     def __init__(self):
@@ -21,6 +23,10 @@ class IntroLevel1(GameState):
         self.blink_active = False
         self.blink_delay = 0
         self.blink = None
+        self.gliding_image = pg.image.load(path.join(IMG_FOLDER, INTRO1_1)).convert()
+        self.gliding_image =  pg.transform.scale(self.gliding_image, (HEIGHT, HEIGHT))
+        self.gliding_image_rect = self.gliding_image.get_rect()
+        self.gliding_image_rect.x = WIDTH
 
 
 
@@ -58,18 +64,21 @@ class IntroLevel1(GameState):
         if self.blink_delay > 300:
             self.blink_active = not self.blink_active
             self.blink_delay = 0
+        if self.message_number >= 3 and self.gliding_image_rect.x != 0:
+            self.gliding_image_rect.x -= 1
 
 
 
     def draw(self, surface):
+        surface.fill(pg.Color("white"))
+        surface.blit(self.gliding_image, self.gliding_image_rect)
+        # self.info_rect.y = WIDTH*3/4
         # self.info = self.font.render(self.output, True, pg.Color("dodgerblue"))
         self.info_rect = pg.Rect((0, HEIGHT * 3 / 4, WIDTH, HEIGHT / 4))
         self.blink_rect = pg.Rect((WIDTH*3 / 4, HEIGHT - 40, 10, 10))
-        self.info = tre.render_textrect(self.output, self.font, self.info_rect, (255, 0, 0), (0, 255, 0), 1)
+        self.info = tre.render_textrect(self.output, self.font, self.info_rect, (255, 0, 0), WHITE, 1)
         # self.info_rect = self.info.get_rect(center=self.screen_rect.center)
-        # self.info_rect.y = WIDTH*3/4
-        surface.fill(pg.Color("black"))
-        surface.blit(self.title, self.title_rect)
+        # surface.blit(self.title, self.title_rect)
         surface.blit(self.info, self.info_rect)
         if self.blink_active and self.count == len(self.message[self.message_number]):
             self.blink = tre.render_textrect("", self.font, self.blink_rect, (0, 0, 0), (255, 255, 255), 1)

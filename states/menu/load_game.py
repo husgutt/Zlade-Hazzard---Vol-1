@@ -2,6 +2,7 @@ from ..gamestate import GameState
 import pygame as pg
 from settings import *
 import json
+from sprites import *
 from os import path
 from os import listdir
 
@@ -18,7 +19,10 @@ class LoadGame(GameState):
         self.next_state = "INTRO_LEVEL_1"
         self.load_selected = 0
         self.load_list = listdir(save_folder)
-        print(self.load_list)
+        self.background = pg.image.load(path.join(IMG_FOLDER, STARTSCREEN)).convert()
+        self.background =  pg.transform.scale(self.background, (HEIGHT, HEIGHT))
+        self.background_rect = self.background.get_rect()
+        self.background_rect.x = -40
 
     def get_event(self, event):
         if event.type == pg.QUIT:
@@ -48,6 +52,8 @@ class LoadGame(GameState):
 
     def draw(self, surface):
         surface.fill(pg.Color("black"))
+        surface.blit(self.background, self.background_rect)
+
 
         for i in range(len(self.load_list)):
             if i == self.load_selected:

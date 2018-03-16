@@ -1,6 +1,6 @@
 from os import path
 
-TITLE = "Shmup"
+TITLE = "Zlade Hazzard: Vol 1"
 WIDTH = 480
 HEIGHT = 600
 FPS = 60

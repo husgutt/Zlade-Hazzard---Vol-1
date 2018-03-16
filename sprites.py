@@ -16,4 +16,9 @@ METEORS['1'] = METEORS_BROWN
 
 
 BACKGROUND_1 = "stars_bg.png"
+MEAN_DUDE = "test.jpg"
 BACKGROUND = [BACKGROUND_1]
+
+STARTSCREEN = "test2.jpg"
+
+INTRO1_1 = "intro1.png"

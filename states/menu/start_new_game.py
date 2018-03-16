@@ -1,6 +1,7 @@
 from ..gamestate import GameState
 import pygame as pg
 from settings import *
+from sprites import *
 import json
 from os import path
 
@@ -23,6 +24,11 @@ class NewGame(GameState):
         self.color = self.color_inactive
         self.active = False
         self.text = ''
+
+        self.background = pg.image.load(path.join(IMG_FOLDER, STARTSCREEN)).convert()
+        self.background =  pg.transform.scale(self.background, (HEIGHT, HEIGHT))
+        self.background_rect = self.background.get_rect()
+        self.background_rect.x = -40
 
 
     def get_event(self, event):
@@ -62,6 +68,7 @@ class NewGame(GameState):
 
     def draw(self, surface):
         surface.fill(pg.Color("black"))
+        surface.blit(self.background, self.background_rect)
 
         # for i in range(len(self.menu_choices)):
         #     if i == self.menu_selected:
